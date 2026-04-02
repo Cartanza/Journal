@@ -1,19 +1,18 @@
-{{!< default}}
-
-{{#post}}
+{{#*inline "body"}}
+{{#with post}}
 
 <main id="gh-main" class="gh-main">
     <article class="gh-article {{post_class}}">
 
         <header class="gh-article-header gh-canvas">
             <span class="gh-article-meta">
-                By {{authors}}
+                By {{#foreach authors}}{{#if @first}}{{name}}{{else}}, {{name}}{{/if}}{{/foreach}}
                 {{#if primary_tag}}
                     in
                     <a class="gh-article-tag" href="{{primary_tag.url}}">{{primary_tag.name}}</a>
                 {{/if}}
                 —
-                <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
+                <time datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
             </span>
 
             <h1 class="gh-article-title">{{title}}</h1>
@@ -22,11 +21,11 @@
                 <p class="gh-article-excerpt">{{custom_excerpt}}</p>
             {{/if}}
 
-            {{> "feature-image"}}
+            {{> partials/feature-image}}
         </header>
 
         <div class="gh-content gh-canvas">
-            {{content}}
+            {{{content}}}
         </div>
 
         {{#if comments}}
@@ -35,26 +34,26 @@
             </div>
         {{/if}}
 
-        <footer class="gh-article-footer gh-canvas{{#if @site.comments_enabled}}{{#unless @member}} no-border{{/unless}}{{#unless access}} no-border{{/unless}}{{/if}}">
+        <footer class="gh-article-footer gh-canvas{{#if @root.site.comments_enabled}}{{#unless @root.member}} no-border{{/unless}}{{#unless access}} no-border{{/unless}}{{/if}}">
             <nav class="gh-navigation">
                 <div class="gh-navigation-previous">
-                    {{#prev_post}}
-                        <a class="gh-navigation-link" href="{{url}}">
-                            <span class="gh-navigation-label">{{> icons/arrow-left}} Previous issue</span>
+                    {{#with prev_post}}
+                        <a class="gh-navigation-link" href="/{{slug}}">
+                            <span class="gh-navigation-label">{{> partials/icons/arrow-left}} Previous issue</span>
                             <h4 class="gh-navigation-title">{{title}}</h4>
                         </a>
-                    {{/prev_post}}
+                    {{/with}}
                 </div>
 
                 <div class="gh-navigation-middle"></div>
 
                 <div class="gh-navigation-next">
-                    {{#next_post}}
-                        <a class="gh-navigation-link" href="{{url}}">
-                            <span class="gh-navigation-label">Next issue {{> icons/arrow-right}}</span>
+                    {{#with next_post}}
+                        <a class="gh-navigation-link" href="/{{slug}}">
+                            <span class="gh-navigation-label">Next issue {{> partials/icons/arrow-right}}</span>
                             <h4 class="gh-navigation-title">{{title}}</h4>
                         </a>
-                    {{/next_post}}
+                    {{/with}}
                 </div>
             </nav>
         </footer>
@@ -62,4 +61,6 @@
     </article>
 </main>
 
-{{/post}}
+{{/with}}
+{{/inline}}
+{{> default}}

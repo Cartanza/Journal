@@ -1,7 +1,6 @@
-{{!< default}}
-
+{{#*inline "body"}}
 <main id="gh-main" class="gh-main gh-canvas">
-    {{#tag}}
+    {{#with tag}}
         <section class="gh-pagehead">
             <header class="gh-pagehead-content">
                 <div class="gh-tag-label">Topic</div>
@@ -17,13 +16,15 @@
                 </div>
             </header>
         </section>
-    {{/tag}}
+    {{/with}}
 
     <div class="gh-feed">
         {{#foreach posts}}
-            {{> loop}}
+            {{> partials/loop}}
         {{/foreach}}
     </div>
 
     <button class="gh-loadmore gh-btn">Load more issues</button>
 </main>
+{{/inline}}
+{{> default}}
